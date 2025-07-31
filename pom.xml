@@ -5,7 +5,7 @@
 
     <groupId>com.alibaba.csp</groupId>
     <artifactId>sentinel-parent</artifactId>
-    <version>1.8.8</version>
+    <version>1.8.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -65,6 +65,11 @@
         <maven.jacoco.version>0.8.11</maven.jacoco.version>
         <maven.jar.version>3.3.0</maven.jar.version>
         <maven.pmd.version>3.8</maven.pmd.version>
+
+        <!-- Maven Release Repository URL -->
+        <maven.releases.repo>http://nexus.itiaoling.com/repository/itiaoling-release/</maven.releases.repo>
+        <!-- Maven Snapshot Repository URL -->
+        <maven.snapshots.repo>http://nexus.itiaoling.com/repository/itiaoling-snapshot/</maven.snapshots.repo>
     </properties>
 
     <modules>
@@ -171,13 +176,13 @@
                 <artifactId>sentinel-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-metric-exporter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -350,6 +355,39 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus</name>
+            <url>http://nexus.itiaoling.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!-- 分发管理 -->
+    <distributionManagement>
+        <repository>
+            <id>release</id>
+            <name>Release</name>
+            <url>${maven.releases.repo}</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshot</id>
+            <name>Snapshot</name>
+            <url>${maven.snapshots.repo}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <profiles>
         <profile>
