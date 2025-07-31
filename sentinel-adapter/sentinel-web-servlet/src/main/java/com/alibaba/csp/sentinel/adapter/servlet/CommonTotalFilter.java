@@ -15,17 +15,6 @@
  */
 package com.alibaba.csp.sentinel.adapter.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.ResourceTypeConstants;
 import com.alibaba.csp.sentinel.SphU;
@@ -34,6 +23,11 @@ import com.alibaba.csp.sentinel.adapter.servlet.callback.WebCallbackManager;
 import com.alibaba.csp.sentinel.adapter.servlet.config.WebServletConfig;
 import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 /***
  * Servlet filter for all requests.
@@ -52,7 +46,7 @@ public class CommonTotalFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest sRequest = (HttpServletRequest)request;
+        HttpServletRequest sRequest = (HttpServletRequest) request;
 
         Entry entry = null;
         try {
@@ -60,7 +54,7 @@ public class CommonTotalFilter implements Filter {
             entry = SphU.entry(TOTAL_URL_REQUEST, ResourceTypeConstants.COMMON_WEB);
             chain.doFilter(request, response);
         } catch (BlockException e) {
-            HttpServletResponse sResponse = (HttpServletResponse)response;
+            HttpServletResponse sResponse = (HttpServletResponse) response;
             WebCallbackManager.getUrlBlockHandler().blocked(sRequest, sResponse, e);
         } catch (IOException | ServletException | RuntimeException e2) {
             Tracer.trace(e2);

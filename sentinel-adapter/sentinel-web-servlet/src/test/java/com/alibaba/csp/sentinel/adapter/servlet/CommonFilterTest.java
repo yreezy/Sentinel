@@ -17,7 +17,7 @@ package com.alibaba.csp.sentinel.adapter.servlet;
 
 import java.util.Collections;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.alibaba.csp.sentinel.Constants;
 import com.alibaba.csp.sentinel.adapter.servlet.callback.DefaultUrlCleaner;
