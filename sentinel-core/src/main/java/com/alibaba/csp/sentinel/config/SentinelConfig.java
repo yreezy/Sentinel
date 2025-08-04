@@ -125,11 +125,11 @@ public final class SentinelConfig {
         AssertUtil.notNull(key, "key cannot be null");
         return props.get(key);
     }
-    
+
     /**
      * Get config value of the specific key.
      *
-     * @param key config key
+     * @param key            config key
      * @param envVariableKey Get the value of the environment variable with the given key
      * @return the config value.
      */
@@ -165,6 +165,12 @@ public final class SentinelConfig {
     }
 
     public static String getAppName() {
+        String configAppName = getConfig(APP_NAME_PROP_KEY);
+        if (!StringUtil.isBlank(configAppName) && !configAppName.equals(appName)) {
+            appName = configAppName;
+            return appName;
+        }
+
         return appName;
     }
 
@@ -181,10 +187,11 @@ public final class SentinelConfig {
     public static String charset() {
         return props.get(CHARSET);
     }
-    
+
     /**
      * Get the metric log flush interval in second
-     * @return  the metric log flush interval in second
+     *
+     * @return the metric log flush interval in second
      * @since 1.8.1
      */
     public static long metricLogFlushIntervalSec() {
@@ -331,6 +338,7 @@ public final class SentinelConfig {
     private static String toEnvKey(/*@NotBlank*/ String propKey) {
         return propKey.toUpperCase().replace('.', '_');
     }
+
     /**
      * Whether use context classloader via config parameter
      *
@@ -341,5 +349,6 @@ public final class SentinelConfig {
         return CLASSLOADER_CONTEXT.equalsIgnoreCase(classloaderConf);
     }
 
-    private SentinelConfig() {}
+    private SentinelConfig() {
+    }
 }
